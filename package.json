@@ -1,0 +1,23 @@
+{
+  "name": "renameit-lib",
+  "version": "1.0.0",
+  "description": "Rename it plugin shared lib",
+  "main": "Rename.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "https://github.com/rodi01/RenameIt-Lib",
+  "keywords": [
+    "RenameIt"
+  ],
+  "author": {
+    "name": "Rodrigo Soares",
+    "email": "oncemade@gmail.com",
+    "url": "http://renameit.design"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "change-case": "^3.1.0",
+    "titlecase": "^1.1.2"
+  }
+}
