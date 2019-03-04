@@ -2,7 +2,7 @@
   "name": "renameit-lib",
   "version": "1.0.0",
   "description": "Rename it plugin shared lib",
-  "main": "Rename.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
