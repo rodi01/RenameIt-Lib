@@ -1,10 +1,13 @@
 {
-  "name": "renameit-lib",
+  "name": "renameitlib",
   "version": "1.0.0",
   "description": "Rename it plugin shared lib",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel ./src -d ./lib",
+    "lint": "eslint '**/*.{js,jsx}' --quiet",
+    "test": "mocha --require babel-core/register",
+    "format": "prettier --write '**/*.{js,jsx}'"
   },
   "repository": "https://github.com/rodi01/RenameIt-Lib",
   "keywords": [
@@ -18,6 +21,19 @@
   "license": "MIT",
   "dependencies": {
     "change-case": "^3.1.0",
+    "react": "^16.8.6",
     "titlecase": "^1.1.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "mocha": "^6.0.2",
+    "prettier": "^1.16.4"
   }
 }
