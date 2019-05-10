@@ -25,7 +25,7 @@ describe("Rename Layers", () => {
 
   describe("Sequence", () => {
     it("should return in sequence ASC", () => {
-      for (let index = 0; index < 10; index++) {
+      for (let index = 0; index < 10; index += 1) {
         const element = JSON.parse(JSON.stringify(mockData))
         element.selectionCount = 10
         element.currIdx = index
@@ -35,7 +35,7 @@ describe("Rename Layers", () => {
       }
     })
     it("should return in sequence DESC", () => {
-      for (let index = 0; index < 10; index++) {
+      for (let index = 0; index < 10; index += 1) {
         const element = JSON.parse(JSON.stringify(mockData))
         element.selectionCount = 10
         element.currIdx = index
