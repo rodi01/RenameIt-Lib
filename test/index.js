@@ -1,4 +1,4 @@
-import { describe } from "mocha"
+import Mocha from "mocha"
 import { assert } from "chai"
 import Rename from "../src/Rename"
 import FindReplace from "../src/FindReplace"
@@ -13,7 +13,10 @@ describe("Rename Layers", () => {
     pageName: "page name",
     parentName: "parent",
     inputName: "New %*",
-    selectionCount: 0
+    symbolName: "master symbol",
+    selectionCount: 0,
+    layerStyle: "layer style",
+    textStyle: "text style"
   }
   const rename = new Rename()
 
@@ -126,13 +129,58 @@ describe("Rename Layers", () => {
     it("should ignore parent", () => {
       rename.allowParent = false
       element.inputName = "%o"
-      assert.equal(rename.layer(element), "%o")
+      assert.equal(rename.layer(element), element.inputName)
     })
 
     it("should ignore page", () => {
       rename.allowPageName = false
       element.inputName = "%p"
-      assert.equal(rename.layer(element), "%p")
+      assert.equal(rename.layer(element), element.inputName)
+    })
+  })
+
+  describe("Symbols", () => {
+    const element = JSON.parse(JSON.stringify(mockData))
+    it("should use symbol name", () => {
+      element.inputName = "%s"
+      assert.equal(rename.layer(element), "master symbol")
+    })
+
+    it("should be empty", () => {
+      element.inputName = "%s"
+      element.symbolName = ""
+      assert.isEmpty(rename.layer(element))
+    })
+
+    it("should ignore symbols", () => {
+      element.inputName = "%s"
+      rename.allowSymbol = false
+      assert.equal(rename.layer(element), element.inputName)
+    })
+  })
+
+  describe("Styles", () => {
+    const element = JSON.parse(JSON.stringify(mockData))
+    it("should layer styles", () => {
+      element.inputName = "%ls%"
+      assert.equal(rename.layer(element), "layer style")
+    })
+
+    it("should text styles", () => {
+      element.inputName = "%ts%"
+      assert.equal(rename.layer(element), "text style")
+    })
+
+    it("should ignore layer style", () => {
+      element.inputName = "%ls%"
+      rename.allowLayerStyle = false
+      assert.equal(rename.layer(element), element.inputName)
+    })
+
+    it("should ignore text style", () => {
+      element.inputName = "%ts%"
+      rename.allowTextStyle = false
+      assert.equal(rename.layer(element), element.inputName)
     })
   })
 })

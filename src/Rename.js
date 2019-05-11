@@ -22,16 +22,29 @@ const upperCase = "%\\*u%",
       width = "%w",
       height = "%h",
       page = "%p",
-      parent = "%o"
+      parent = "%o",
+      symbol = "%s",
+      layerStyle = "%ls%",
+      textStyle = "%ts%"
 
 // prettier-ignore-end
 /* eslint-enable */
 
 class Rename {
-  constructor({ allowTextCases = true, allowPageName = true, allowParent = true } = {}) {
+  constructor({
+    allowTextCases = true,
+    allowPageName = true,
+    allowParent = true,
+    allowSymbol = true,
+    allowLayerStyle = true,
+    allowTextStyle = true
+  } = {}) {
     this.allowTextCases = allowTextCases
     this.allowPageName = allowPageName
     this.allowParent = allowParent
+    this.allowSymbol = allowSymbol
+    this.allowLayerStyle = allowLayerStyle
+    this.allowTextStyle = allowTextStyle
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -136,6 +149,21 @@ class Rename {
     // Parent Name
     if (this.allowParent) {
       newLayerName = newLayerName.replace(this.shortcut(parent), options.parentName)
+    }
+
+    // Symbol Name
+    if (this.allowSymbol) {
+      newLayerName = newLayerName.replace(this.shortcut(symbol), options.symbolName)
+    }
+
+    // Layer Style
+    if (this.allowLayerStyle) {
+      newLayerName = newLayerName.replace(this.shortcut(layerStyle), options.layerStyle)
+    }
+
+    if (this.allowTextStyle) {
+      // Text Style
+      newLayerName = newLayerName.replace(this.shortcut(textStyle), options.textStyle)
     }
 
     // Return new name
