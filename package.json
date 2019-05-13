@@ -1,6 +1,6 @@
 {
   "name": "renameitlib",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Rename it plugin shared lib",
   "main": "lib/index.js",
   "scripts": {
