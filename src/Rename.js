@@ -60,6 +60,12 @@ class Rename {
     return (pad + n).slice(-pad.length)
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  convertTitleCase(layerName) {
+    const l = changeCase.lowerCase(layerName)
+    return toTitleCase(l)
+  }
+
   currentLayer(newLayerName, layerName) {
     let name = newLayerName
 
@@ -69,7 +75,7 @@ class Rename {
       // LowerCase
       name = name.replace(this.shortcut(lowerCase), changeCase.lowerCase(layerName))
       // Title Case
-      name = name.replace(this.shortcut(titleCase), toTitleCase(layerName))
+      name = name.replace(this.shortcut(titleCase), this.convertTitleCase(layerName))
       // UpperCase First
       name = name.replace(this.shortcut(upperFirstCase), changeCase.upperCaseFirst(layerName))
       // Camel Case

@@ -67,7 +67,7 @@ describe("Rename Layers", () => {
 
   describe("Text cases", () => {
     const element = JSON.parse(JSON.stringify(mockData))
-    element.layerName = "test name"
+    element.layerName = "test NAME"
 
     it("should titlecase", () => {
       element.inputName = "%*t%"
@@ -81,7 +81,7 @@ describe("Rename Layers", () => {
 
     it("should upper case first", () => {
       element.inputName = "%*uf%"
-      assert.strictEqual(rename.layer(element), "Test name")
+      assert.strictEqual(rename.layer(element), "Test NAME")
     })
     it("should camelCase", () => {
       element.inputName = "%*c%"
