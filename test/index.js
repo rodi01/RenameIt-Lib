@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import Mocha from "mocha"
 import { assert } from "chai"
 import Rename from "../src/Rename"
