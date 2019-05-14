@@ -8,11 +8,49 @@
 import changeCase from "change-case"
 import toTitleCase from "titlecase"
 
+/*eslint-disable */
+// prettier-ignore
+const upperCase = "%\\*u%",
+      lowerCase = "%\\*l%",
+      titleCase = "%\\*t%",
+      upperFirstCase = "%\\*uf%",
+      camelCase = "%\\*c%",
+      paramCase = "%\\*pc%",
+      numberSequence = "%N",
+      alphaSequence = "%a",
+      alphaReverse = "%ar%",
+      width = "%w",
+      height = "%h",
+      page = "%p",
+      parent = "%o",
+      symbol = "%s",
+      layerStyle = "%ls%",
+      textStyle = "%ts%"
+
+// prettier-ignore-end
+/* eslint-enable */
+
 class Rename {
-  constructor({ allowTextCases = true, allowPageName = true, allowParent = true } = {}) {
+  constructor({
+    allowTextCases = true,
+    allowPageName = true,
+    allowParent = true,
+    allowSymbol = true,
+    allowLayerStyle = true,
+    allowTextStyle = true
+  } = {}) {
     this.allowTextCases = allowTextCases
     this.allowPageName = allowPageName
     this.allowParent = allowParent
+    this.allowSymbol = allowSymbol
+    this.allowLayerStyle = allowLayerStyle
+    this.allowTextStyle = allowTextStyle
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  shortcut(s) {
+    return new RegExp(s, "gi")
+    // return `/${escapeStringRegexp(s)}/gi`
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -27,31 +65,30 @@ class Rename {
 
     if (this.allowTextCases) {
       // UpperCase
-      name = name.replace(/%\*u%/gi, changeCase.upperCase(layerName))
+      name = name.replace(this.shortcut(upperCase), changeCase.upperCase(layerName))
       // LowerCase
-      name = name.replace(/%\*l%/gi, changeCase.lowerCase(layerName))
+      name = name.replace(this.shortcut(lowerCase), changeCase.lowerCase(layerName))
       // Title Case
-      name = name.replace(/%\*t%/gi, toTitleCase(layerName))
+      name = name.replace(this.shortcut(titleCase), toTitleCase(layerName))
       // UpperCase First
-      name = name.replace(/%\*uf%/gi, changeCase.upperCaseFirst(layerName))
+      name = name.replace(this.shortcut(upperFirstCase), changeCase.upperCaseFirst(layerName))
       // Camel Case
-      name = name.replace(/%\*c%/gi, changeCase.camelCase(layerName))
+      name = name.replace(this.shortcut(camelCase), changeCase.camelCase(layerName))
       // Param Case
-      name = name.replace(/%\*pc%/gi, changeCase.paramCase(layerName))
+      name = name.replace(this.shortcut(paramCase), changeCase.paramCase(layerName))
     }
     // Layername
     name = name.replace(/%\*/g, layerName)
     return String(name)
   }
 
-  // eslint-disable-next-line class-methods-use-this
   layer(options) {
     let newLayerName = options.inputName
 
     // Interator
-    const nInterators = newLayerName.match(/%N+/gi)
+    const nInterators = newLayerName.match(this.shortcut(numberSequence))
     const aInterators = newLayerName.match(/(?!%ar%)%A/gi)
-    const reverseAInterators = newLayerName.match(/%ar%/gi)
+    const reverseAInterators = newLayerName.match(this.shortcut(alphaReverse))
     // eslint-disable-next-line no-underscore-dangle
     const _this = this
 
@@ -91,27 +128,42 @@ class Rename {
     }
     // Reverse Alpha
     if (reverseAInterators != null) {
-      newLayerName = newLayerName.replace(/%ar%/gi, replaceAlpha)
+      newLayerName = newLayerName.replace(this.shortcut(alphaReverse), replaceAlpha)
     }
     if (aInterators != null) {
-      newLayerName = newLayerName.replace(/%a/gi, replaceAlpha)
+      newLayerName = newLayerName.replace(this.shortcut(alphaSequence), replaceAlpha)
     }
 
     // Replace asterisks
     newLayerName = _this.currentLayer(newLayerName, options.layerName)
 
     // Add Width and/or height
-    newLayerName = newLayerName.replace(/%w/gi, options.width)
-    newLayerName = newLayerName.replace(/%h/gi, options.height)
+    newLayerName = newLayerName.replace(this.shortcut(width), options.width)
+    newLayerName = newLayerName.replace(this.shortcut(height), options.height)
 
     // Page Name
     if (this.allowPageName) {
-      newLayerName = newLayerName.replace(/%p/gi, options.pageName)
+      newLayerName = newLayerName.replace(this.shortcut(page), options.pageName)
     }
 
     // Parent Name
     if (this.allowParent) {
-      newLayerName = newLayerName.replace(/%o/gi, options.parentName)
+      newLayerName = newLayerName.replace(this.shortcut(parent), options.parentName)
+    }
+
+    // Symbol Name
+    if (this.allowSymbol) {
+      newLayerName = newLayerName.replace(this.shortcut(symbol), options.symbolName)
+    }
+
+    // Layer Style
+    if (this.allowLayerStyle) {
+      newLayerName = newLayerName.replace(this.shortcut(layerStyle), options.layerStyle)
+    }
+
+    if (this.allowTextStyle) {
+      // Text Style
+      newLayerName = newLayerName.replace(this.shortcut(textStyle), options.textStyle)
     }
 
     // Return new name
