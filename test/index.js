@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import Mocha from "mocha"
 import { assert } from "chai"
 import Rename from "../src/Rename"
@@ -15,8 +16,7 @@ describe("Rename Layers", () => {
     inputName: "New %*",
     symbolName: "master symbol",
     selectionCount: 0,
-    layerStyle: "layer style",
-    textStyle: "text style"
+    layerStyle: "layer style"
   }
   const rename = new Rename()
 
@@ -67,7 +67,7 @@ describe("Rename Layers", () => {
 
   describe("Text cases", () => {
     const element = JSON.parse(JSON.stringify(mockData))
-    element.layerName = "test name"
+    element.layerName = "test NAME"
 
     it("should titlecase", () => {
       element.inputName = "%*t%"
@@ -81,7 +81,7 @@ describe("Rename Layers", () => {
 
     it("should upper case first", () => {
       element.inputName = "%*uf%"
-      assert.strictEqual(rename.layer(element), "Test name")
+      assert.strictEqual(rename.layer(element), "Test NAME")
     })
     it("should camelCase", () => {
       element.inputName = "%*c%"
@@ -166,20 +166,9 @@ describe("Rename Layers", () => {
       assert.equal(rename.layer(element), "layer style")
     })
 
-    it("should text styles", () => {
-      element.inputName = "%ts%"
-      assert.equal(rename.layer(element), "text style")
-    })
-
     it("should ignore layer style", () => {
       element.inputName = "%ls%"
       rename.allowLayerStyle = false
-      assert.equal(rename.layer(element), element.inputName)
-    })
-
-    it("should ignore text style", () => {
-      element.inputName = "%ts%"
-      rename.allowTextStyle = false
       assert.equal(rename.layer(element), element.inputName)
     })
   })

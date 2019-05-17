@@ -24,8 +24,7 @@ const upperCase = "%\\*u%",
       page = "%p",
       parent = "%o",
       symbol = "%s",
-      layerStyle = "%ls%",
-      textStyle = "%ts%"
+      layerStyle = "%ls%"
 
 // prettier-ignore-end
 /* eslint-enable */
@@ -60,6 +59,12 @@ class Rename {
     return (pad + n).slice(-pad.length)
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  convertTitleCase(layerName) {
+    const l = changeCase.lowerCase(layerName)
+    return toTitleCase(l)
+  }
+
   currentLayer(newLayerName, layerName) {
     let name = newLayerName
 
@@ -69,7 +74,7 @@ class Rename {
       // LowerCase
       name = name.replace(this.shortcut(lowerCase), changeCase.lowerCase(layerName))
       // Title Case
-      name = name.replace(this.shortcut(titleCase), toTitleCase(layerName))
+      name = name.replace(this.shortcut(titleCase), this.convertTitleCase(layerName))
       // UpperCase First
       name = name.replace(this.shortcut(upperFirstCase), changeCase.upperCaseFirst(layerName))
       // Camel Case
@@ -159,11 +164,6 @@ class Rename {
     // Layer Style
     if (this.allowLayerStyle) {
       newLayerName = newLayerName.replace(this.shortcut(layerStyle), options.layerStyle)
-    }
-
-    if (this.allowTextStyle) {
-      // Text Style
-      newLayerName = newLayerName.replace(this.shortcut(textStyle), options.textStyle)
     }
 
     // Return new name
