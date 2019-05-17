@@ -16,8 +16,7 @@ describe("Rename Layers", () => {
     inputName: "New %*",
     symbolName: "master symbol",
     selectionCount: 0,
-    layerStyle: "layer style",
-    textStyle: "text style"
+    layerStyle: "layer style"
   }
   const rename = new Rename()
 
@@ -167,20 +166,9 @@ describe("Rename Layers", () => {
       assert.equal(rename.layer(element), "layer style")
     })
 
-    it("should text styles", () => {
-      element.inputName = "%ts%"
-      assert.equal(rename.layer(element), "text style")
-    })
-
     it("should ignore layer style", () => {
       element.inputName = "%ls%"
       rename.allowLayerStyle = false
-      assert.equal(rename.layer(element), element.inputName)
-    })
-
-    it("should ignore text style", () => {
-      element.inputName = "%ts%"
-      rename.allowTextStyle = false
       assert.equal(rename.layer(element), element.inputName)
     })
   })

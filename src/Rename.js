@@ -24,8 +24,7 @@ const upperCase = "%\\*u%",
       page = "%p",
       parent = "%o",
       symbol = "%s",
-      layerStyle = "%ls%",
-      textStyle = "%ts%"
+      layerStyle = "%ls%"
 
 // prettier-ignore-end
 /* eslint-enable */
@@ -165,11 +164,6 @@ class Rename {
     // Layer Style
     if (this.allowLayerStyle) {
       newLayerName = newLayerName.replace(this.shortcut(layerStyle), options.layerStyle)
-    }
-
-    if (this.allowTextStyle) {
-      // Text Style
-      newLayerName = newLayerName.replace(this.shortcut(textStyle), options.textStyle)
     }
 
     // Return new name
