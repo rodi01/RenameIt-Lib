@@ -35,15 +35,13 @@ class Rename {
     allowPageName = true,
     allowParent = true,
     allowSymbol = true,
-    allowLayerStyle = true,
-    allowTextStyle = true
+    allowLayerStyle = true
   } = {}) {
     this.allowTextCases = allowTextCases
     this.allowPageName = allowPageName
     this.allowParent = allowParent
     this.allowSymbol = allowSymbol
     this.allowLayerStyle = allowLayerStyle
-    this.allowTextStyle = allowTextStyle
   }
 
   // eslint-disable-next-line class-methods-use-this
