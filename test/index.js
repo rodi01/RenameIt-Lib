@@ -56,6 +56,18 @@ describe("Rename Layers", () => {
       assert.equal(rename.layer(element), "00")
     })
 
+    it("should start from", () => {
+      for (let index = 0; index < 10; index += 1) {
+        const element = JSON.parse(JSON.stringify(mockData))
+        element.selectionCount = 10
+        element.currIdx = index
+        element.startsFrom = 10
+        element.inputName = "Item %n"
+        const num = element.selectionCount - element.currIdx - 1
+        assert.equal(rename.layer(element), `Item ${num + element.startsFrom}`)
+      }
+    })
+
     it("should sort in alphabetical order", () => {
       const element = JSON.parse(JSON.stringify(mockData))
       element.inputName = "%A"
@@ -196,5 +208,12 @@ describe("Find and Replace", () => {
   it("should replace", () => {
     options.caseSensitive = false
     assert.equal(findReplace.layer(options), `${options.replaceWith} layer`)
+  })
+
+  it("Should match same text", () => {
+    options.layerName = "Testing"
+    options.findText = "Testing"
+    console.log(options)
+    assert.isTrue(findReplace.match(options))
   })
 })
