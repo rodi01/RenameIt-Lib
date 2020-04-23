@@ -5,13 +5,16 @@
  * @Last modified time: 2017-12-02T10:17:35-08:00
  */
 
-import changeCase from "change-case"
+import * as changeCase from "change-case"
 import toTitleCase from "titlecase"
+import { upperCase } from "upper-case"
+import { lowerCase } from "lower-case"
+import { upperCaseFirst } from "upper-case-first"
 
 /*eslint-disable */
 // prettier-ignore
-const upperCase = "%\\*u%",
-      lowerCase = "%\\*l%",
+const uppercaseSC = "%\\*u%",
+      lowerCaseSC = "%\\*l%",
       titleCase = "%\\*t%",
       upperFirstCase = "%\\*uf%",
       camelCase = "%\\*c%",
@@ -24,7 +27,8 @@ const upperCase = "%\\*u%",
       page = "%p",
       parent = "%o",
       symbol = "%s",
-      layerStyle = "%ls%"
+      layerStyle = "%ls%",
+      childLayer = "%ch%"
 
 // prettier-ignore-end
 /* eslint-enable */
@@ -35,7 +39,8 @@ class Rename {
     allowPageName = true,
     allowParent = true,
     allowSymbol = true,
-    allowLayerStyle = true
+    allowLayerStyle = true,
+    allowChildLayer = false,
   } = {}) {
     this.allowTextCases = allowTextCases
     this.allowPageName = allowPageName
@@ -59,7 +64,7 @@ class Rename {
 
   // eslint-disable-next-line class-methods-use-this
   convertTitleCase(layerName) {
-    const l = changeCase.lowerCase(layerName)
+    const l = lowerCase(layerName)
     return toTitleCase(l)
   }
 
@@ -68,13 +73,13 @@ class Rename {
 
     if (this.allowTextCases) {
       // UpperCase
-      name = name.replace(this.shortcut(upperCase), changeCase.upperCase(layerName))
+      name = name.replace(this.shortcut(uppercaseSC), upperCase(layerName))
       // LowerCase
-      name = name.replace(this.shortcut(lowerCase), changeCase.lowerCase(layerName))
+      name = name.replace(this.shortcut(lowerCaseSC), lowerCase(layerName))
       // Title Case
       name = name.replace(this.shortcut(titleCase), this.convertTitleCase(layerName))
       // UpperCase First
-      name = name.replace(this.shortcut(upperFirstCase), changeCase.upperCaseFirst(layerName))
+      name = name.replace(this.shortcut(upperFirstCase), upperCaseFirst(layerName))
       // Camel Case
       name = name.replace(this.shortcut(camelCase), changeCase.camelCase(layerName))
       // Param Case
@@ -162,6 +167,11 @@ class Rename {
     // Layer Style
     if (this.allowLayerStyle) {
       newLayerName = newLayerName.replace(this.shortcut(layerStyle), options.layerStyle)
+    }
+
+    // Child Layer Name
+    if (this.allowChildLayer) {
+      newLayerName = newLayerName.replace(this.shortcut(childLayer), options.childLayer)
     }
 
     // Return new name

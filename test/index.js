@@ -16,7 +16,8 @@ describe("Rename Layers", () => {
     inputName: "New %*",
     symbolName: "master symbol",
     selectionCount: 0,
-    layerStyle: "layer style"
+    layerStyle: "layer style",
+    childLayer: "child layer"
   }
   const rename = new Rename()
 
@@ -181,6 +182,21 @@ describe("Rename Layers", () => {
     it("should ignore layer style", () => {
       element.inputName = "%ls%"
       rename.allowLayerStyle = false
+      assert.equal(rename.layer(element), element.inputName)
+    })
+  })
+
+  describe("Child Layer", () => {
+    const element = JSON.parse(JSON.stringify(mockData))
+    it("should Child Layer", () => {
+      rename.allowChildLayer = true
+      element.inputName = "%ch%"
+      assert.equal(rename.layer(element), "child layer")
+    })
+
+    it("should ignore child layer", () => {
+      element.inputName = "%ch%"
+      rename.allowChildLayer = false
       assert.equal(rename.layer(element), element.inputName)
     })
   })
