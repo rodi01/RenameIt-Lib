@@ -47,6 +47,7 @@ class Rename {
     this.allowParent = allowParent
     this.allowSymbol = allowSymbol
     this.allowLayerStyle = allowLayerStyle
+    this.allowChildLayer = allowChildLayer
   }
 
   // eslint-disable-next-line class-methods-use-this
