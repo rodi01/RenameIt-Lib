@@ -16,7 +16,8 @@ describe("Rename Layers", () => {
     inputName: "New %*",
     symbolName: "master symbol",
     selectionCount: 0,
-    layerStyle: "layer style"
+    layerStyle: "layer style",
+    childLayer: "child layer"
   }
   const rename = new Rename()
 
@@ -54,6 +55,18 @@ describe("Rename Layers", () => {
       element.inputName = "%NN"
       element.selectionCount = 11
       assert.equal(rename.layer(element), "00")
+    })
+
+    it("should start from", () => {
+      for (let index = 0; index < 10; index += 1) {
+        const element = JSON.parse(JSON.stringify(mockData))
+        element.selectionCount = 10
+        element.currIdx = index
+        element.startsFrom = 10
+        element.inputName = "Item %n"
+        const num = element.selectionCount - element.currIdx - 1
+        assert.equal(rename.layer(element), `Item ${num + element.startsFrom}`)
+      }
     })
 
     it("should sort in alphabetical order", () => {
@@ -172,6 +185,21 @@ describe("Rename Layers", () => {
       assert.equal(rename.layer(element), element.inputName)
     })
   })
+
+  describe("Child Layer", () => {
+    const element = JSON.parse(JSON.stringify(mockData))
+    it("should Child Layer", () => {
+      rename.allowChildLayer = true
+      element.inputName = "%ch%"
+      assert.equal(rename.layer(element), "child layer")
+    })
+
+    it("should ignore child layer", () => {
+      element.inputName = "%ch%"
+      rename.allowChildLayer = false
+      assert.equal(rename.layer(element), element.inputName)
+    })
+  })
 })
 
 describe("Find and Replace", () => {
@@ -196,5 +224,12 @@ describe("Find and Replace", () => {
   it("should replace", () => {
     options.caseSensitive = false
     assert.equal(findReplace.layer(options), `${options.replaceWith} layer`)
+  })
+
+  it("Should match same text", () => {
+    options.layerName = "Testing"
+    options.findText = "Testing"
+    console.log(options)
+    assert.isTrue(findReplace.match(options))
   })
 })
